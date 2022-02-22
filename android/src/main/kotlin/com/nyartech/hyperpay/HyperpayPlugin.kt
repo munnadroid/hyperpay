@@ -287,31 +287,31 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
             } else {
                 val uri = Uri.parse(transaction.redirectUrl)
                 redirectData = ""
-
-                val session =  mCustomTabsClient!!.newSession(object : CustomTabsCallback() {
-                    override fun onNavigationEvent(navigationEvent: Int, extras: Bundle?) {
-                        Log.w(TAG, "onNavigationEvent: Code = $navigationEvent")
-                        when (navigationEvent) {
-                            TAB_HIDDEN -> {
-                                if(redirectData.isEmpty()) {
-                                    redirectData = ""
-                                    success("canceled")
-                                } else {
-                                    redirectData = ""
-                                    Log.d(TAG, "Success, redirecting to app...")
-                                    success("success")
+                    if(uri!=null&& mCustomTabsClient!=null) {
+                        val session = mCustomTabsClient!!.newSession(object : CustomTabsCallback() {
+                            override fun onNavigationEvent(navigationEvent: Int, extras: Bundle?) {
+                                Log.w(TAG, "onNavigationEvent: Code = $navigationEvent")
+                                when (navigationEvent) {
+                                    TAB_HIDDEN -> {
+                                        if (redirectData.isEmpty()) {
+                                            redirectData = ""
+                                            success("canceled")
+                                        } else {
+                                            redirectData = ""
+                                            Log.d(TAG, "Success, redirecting to app...")
+                                            success("success")
+                                        }
+                                    }
                                 }
                             }
-                        }
+                        })
+
+                        val builder = CustomTabsIntent.Builder(session)
+                        val customTabsIntent = builder.build()
+                        customTabsIntent.intent.data = uri
+                        customTabsIntent.intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                        customTabsIntent.launchUrl(mActivity!!, uri)
                     }
-                })
-
-                val builder = CustomTabsIntent.Builder(session)
-                val customTabsIntent = builder.build()
-                customTabsIntent.intent.data = uri
-                customTabsIntent.intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-                customTabsIntent.launchUrl(mActivity!!, uri)
-
             }
         } catch (e: Exception) {
             e.printStackTrace()
