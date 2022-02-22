@@ -68,7 +68,7 @@ class HyperpayPlugin {
             ? json.encode(body)
             : body,
       );
-
+      debugPrint("Checkout ID status response: ${response.body}");
       if (response.statusCode != 200) {
         throw HttpException('${response.statusCode}: ${response.body}');
       }
@@ -131,7 +131,7 @@ class HyperpayPlugin {
           'card': card.toMap(),
         },
       );
-
+      debugPrint("pay status response: $result");
       log('$result', name: "HyperpayPlugin/platformResponse");
 
       if (result == 'canceled') {
@@ -181,6 +181,7 @@ class HyperpayPlugin {
       );
 
       final Map<String, dynamic> _resBody = json.decode(response.body);
+      debugPrint("payment status response: $_resBody");
       if (_resBody['result'] != null && _resBody['result']['code'] != null) {
         log(
           '${_resBody['result']['code']}: ${_resBody['result']['description']}',
