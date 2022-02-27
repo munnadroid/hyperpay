@@ -60,6 +60,7 @@ class HyperpayPlugin {
         'amount': _checkoutSettings?.amount.toStringAsFixed(2),
         ..._checkoutSettings?.additionalParams ?? {},
       };
+      debugPrint("Checkout request body: ${json.encode(body)}");
       final Response response = await post(
         _config.checkoutEndpoint,
         headers: _checkoutSettings?.headers,
