@@ -117,7 +117,7 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
         handler.post { channelResult!!.success(result) }
     }
 
-    private fun error(errorCode: String?, errorMessage: String?, errorDetails: Any?) {
+    private fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
         handler.post { channelResult!!.error(errorCode, errorMessage, errorDetails) }
     }
 
