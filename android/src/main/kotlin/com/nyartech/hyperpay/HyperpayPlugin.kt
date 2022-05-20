@@ -346,7 +346,8 @@ class HyperpayPlugin : FlutterPlugin, MethodCallHandler, ITransactionListener, A
 
                 val builder = CustomTabsIntent.Builder(session)
                 mCustomTabsIntent = builder.build()
-                mCustomTabsIntent?.intent?.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                mActivity?.intent?.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                mCustomTabsIntent?.intent?.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                 mCustomTabsIntent?.launchUrl(mActivity!!, uri)
 >>>>>>> 874c37a (fix: upgrade Android's browser dependency (#20))
             }
