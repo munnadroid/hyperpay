@@ -238,9 +238,16 @@ class HyperpayPlugin {
             ? json.encode(body)
             : body,
       );
+      Map<String, dynamic> _resBody = {};
 
-      final Map<String, dynamic> _resBody = json.decode(response.body);
+      try {
+        _resBody = json.decode(response.body);
+      } catch (e) {
+        _resBody['body'] = response.body;
+      }
+
       debugPrint("payment status response: $_resBody");
+
       if (_resBody['result'] != null && _resBody['result']['code'] != null) {
         log(
           '${_resBody['result']['code']}: ${_resBody['result']['description']}',
