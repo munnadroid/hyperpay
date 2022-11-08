@@ -247,7 +247,6 @@ class HyperpayPlugin {
       }
 
       debugPrint("payment status response: $_resBody");
-
       if (_resBody['result'] != null && _resBody['result']['code'] != null) {
         log(
           '${_resBody['result']['code']}: ${_resBody['result']['description']}',
